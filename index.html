@@ -83,7 +83,7 @@
             const computerChoice = choices[Math.floor(Math.random() * 3)];
             document.getElementById('slot-machine').innerHTML = `<span>${computerChoice}</span>`;
             setTimeout(() => {
-                document.getElementById('result').innerHTML = `🎰 你选了 <span style="color: cyan">${playerChoice}</span>，电脑选了 <span style="color: red">${computerChoice}</span> 🎲<br><span style="font-size: 60px; color: gold;">🎊💸 总之，你赢了！ 🎉🏆💰💎</span><span style="font-size: 60px; color: gold;">🎊💸 管他的，总之，你赢了！ 🎉🏆💰💎</span>`;
+                document.getElementById('result').innerHTML = `🎰 你选了 <span style="color: cyan">${playerChoice}</span>，电脑选了 <span style="color: red">${computerChoice}</span> 🎲<br><span style="font-size: 60px; color: gold;">🎊💸 管他的，总之，你赢了！ 🎉🏆💰💎</span>`;
 
                 displayFlatter();
                 playSound();
