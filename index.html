@@ -33,7 +33,7 @@
         button:hover {
             transform: scale(1.1);
         }
-        #result {
+        #result, #flatter {
             margin-top: 20px;
             font-size: 50px;
             font-weight: bold;
@@ -41,26 +41,21 @@
             text-shadow: 5px 5px 15px red;
             animation: flash 1s infinite alternate;
         }
-        @keyframes flash {
-            from { opacity: 1; }
-            to { opacity: 0.5; }
+        .casino-slot {
+            font-size: 80px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            height: 100px;
+            overflow: hidden;
         }
-        .casino-gif {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: auto;
-            opacity: 0.8;
+        .casino-slot span {
+            display: inline-block;
+            animation: spin 1s ease-in-out;
         }
-        .fireworks {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            pointer-events: none;
+        @keyframes spin {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(0); }
         }
     </style>
 </head>
@@ -70,12 +65,9 @@
     <button onclick="playGame('rock')">石头 ✊</button>
     <button onclick="playGame('paper')">布 ✋</button>
     <button onclick="playGame('scissors')">剪刀 ✌</button>
+    <div class="casino-slot" id="slot-machine">🎰</div>
     <p id="result"></p>
     <p id="flatter"></p>
-
-    <img class="casino-gif" src="https://media.giphy.com/media/TcdpZwYDPlWXC/giphy.gif" alt="Casino Lights">
-
-    <canvas class="fireworks"></canvas>
 
     <script>
         let flatterPhrases = [];
@@ -87,12 +79,16 @@
             });
 
         function playGame(playerChoice) {
-            const choices = ['rock', 'paper', 'scissors'];
+            const choices = ['✊', '✋', '✌'];
             const computerChoice = choices[Math.floor(Math.random() * 3)];
-            document.getElementById('result').innerHTML = `🎰 你选了 <span style="color: cyan">${playerChoice}</span>，电脑选了 <span style="color: red">${computerChoice}</span> 🎲<br><span style="font-size: 60px; color: gold;">🎊💸 你赢了！ 🎉🏆💰💎</span>`;
-            displayFlatter();
-            triggerFireworks();
-            playSound();
+            document.getElementById('slot-machine').innerHTML = `<span>${computerChoice}</span>`;
+            setTimeout(() => {
+                document.getElementById('result').innerHTML = `🎰 你选了 <span style="color: cyan">${playerChoice}</span>，电脑选了 <span style="color: red">${computerChoice}</span> 🎲<br><span style="font-size: 60px; color: gold;">🎊💸 总之，你赢了！ 🎉🏆💰💎</span><span style="font-size: 60px; color: gold;">🎊💸 管他的，总之，你赢了！ 🎉🏆💰💎</span>`;
+
+                displayFlatter();
+                playSound();
+                playExaggeratedSound();
+            }, 1000);
         }
 
         function displayFlatter() {
@@ -102,27 +98,19 @@
             }
         }
 
-        function triggerFireworks() {
-            const canvas = document.querySelector('.fireworks');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            for (let i = 0; i < 100; i++) {
-                setTimeout(() => {
-                    let x = Math.random() * canvas.width;
-                    let y = Math.random() * canvas.height;
-                    let size = Math.random() * 5 + 2;
-                    let color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                    ctx.fillStyle = color;
-                    ctx.beginPath();
-                    ctx.arc(x, y, size, 0, Math.PI * 2);
-                    ctx.fill();
-                }, i * 50);
-            }
-        }
-
         function playSound() {
             let audio = new Audio('https://www.myinstants.com/media/sounds/casino-win.mp3');
+            audio.play();
+        }
+
+        function playExaggeratedSound() {
+            let soundEffects = [
+                'https://www.myinstants.com/media/sounds/victory.mp3',
+                'https://www.myinstants.com/media/sounds/airhorn.mp3',
+                'https://www.myinstants.com/media/sounds/epic-win.mp3'
+            ];
+            let randomEffect = soundEffects[Math.floor(Math.random() * soundEffects.length)];
+            let audio = new Audio(randomEffect);
             audio.play();
         }
     </script>
