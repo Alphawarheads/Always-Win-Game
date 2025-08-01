@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 import csv
-from filelock import FileLock, Timeout
+# from filelock import FileLock, Timeout
 
 st.title("🎧 本地音频水印对比评分系统")
 
@@ -51,16 +51,15 @@ if audio_files and cur_idx >= total:
 
     if st.session_state.results:
         try:
-            with FileLock(lock_file, timeout=10):
-                file_exists = os.path.exists(result_file)
-                with open(result_file, "a", newline="") as f:
-                    writer = csv.writer(f)
-                    if not file_exists:
-                        writer.writerow(["filename", "method", "rating"])
-                    writer.writerows(st.session_state.results)
-                st.session_state.results.clear()
-        except Timeout:
-            st.warning("⚠️ 当前有其他用户正在提交，请稍后再试")
+            file_exists = os.path.exists(result_file)
+            with open(result_file, "a", newline="") as f:
+                writer = csv.writer(f)
+                if not file_exists:
+                    writer.writerow(["filename", "method", "rating"])
+                writer.writerows(st.session_state.results)
+            st.session_state.results.clear()
+        except:
+            st.warning("⚠️ 鬼知道发生了什么，找zzs去")
     st.stop()
 
 if audio_files and cur_idx < total:
